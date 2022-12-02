@@ -36,7 +36,10 @@ playwright install
 python server.py
 ```
 
-Api Documentation
+* The server runs at port `5001`. If you want to change, you can change it in server.py
+
+
+# Api Documentation
 
 * There is a single end point only. It is available at `/chat`
 
