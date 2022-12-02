@@ -21,7 +21,7 @@ source pyenv/bin/activate
 * Now install the requirements
 
 ```
-python requirements.txt
+pip install -r requirements.txt
 ```
 
 * If you are installing playwright for the first time, it will ask you to run this command for one time only.
