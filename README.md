@@ -15,7 +15,7 @@
 virtualenv -p $(which python3) pyenv
 
 # everytime you want to run the server
-source pyenv/bin/activae
+source pyenv/bin/activate
 ```
 
 * Now install the requirements
