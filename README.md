@@ -43,8 +43,8 @@ python server.py
 
 * There is a single end point only. It is available at `/chat`
 
-```
-curl -XGET -d 'Write a python program to reverse a list' 'localhost:5001/chat'
+```sh
+curl -XGET http://localhost:5001/chat?q=Write%20a%20python%20program%20to%20reverse%20a%20list
 ```
 
 # Credit
