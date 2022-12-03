@@ -1,0 +1,14 @@
+image:
+  file: .gitpod.Dockerfile
+
+ports:
+  - port: 6080
+    protocol: "http"
+
+tasks:
+  - init: |
+      virtualenv -p $(which python3) pyenv
+      source pyenv/bin/activate
+      pip install -r requirements.txt
+    command: |
+      python server.py
