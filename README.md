@@ -3,6 +3,11 @@
 * It uses playwright and chromium to open browser and parse html.
 * It is an unoffical api for development purpose only.
 
+## Run in Gitpod
+
+Instead of setting up locally, you can click on Gitpod button and get it working in your browser:
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
 
 # How to install
 
