@@ -1,5 +1,6 @@
 import urllib.parse
 import requests
+import readline
 import sys
 from builtins import input
 
