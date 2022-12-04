@@ -1,7 +1,7 @@
 """Make some requests to OpenAI's chatbot"""
 
 import time
-import os
+import os 
 import flask
 
 from flask import g
@@ -18,13 +18,19 @@ PAGE = BROWSER.new_page()
 
 def get_input_box():
     """Get the child textarea of `PromptTextarea__TextareaWrapper`"""
-    return PAGE.query_selector("textarea")
+    print ("Getting input box")
+    QUERY = PAGE.query_selector("div[class*='PromptTextarea__TextareaWrapper']")
+    if QUERY is None:
+        return None
+    return QUERY.query_selector("textarea")
 
 def is_logged_in():
     # See if we have a textarea with data-id="root"
     return get_input_box() is not None
 
 def send_message(message):
+    print("➡️ 🤖 Sending message to OpenAI")
+    print("message : "+ message)
     # Send the message
     box = get_input_box()
     box.click()
@@ -42,20 +48,39 @@ def chat():
     message = flask.request.args.get("q")
     print("Sending message: ", message)
     send_message(message)
-    time.sleep(10) # TODO: there are about ten million ways to be smarter than this
+    print("⏳ Waiting for response...")
+    # Get last message every 0.1 seconds until last_message don't change
+    last_message = get_last_message()
+    while True:
+        time.sleep(1)
+        print(" ... waiting ...")
+        new_message = get_last_message()
+        if new_message == last_message and new_message != "":
+            break
+        last_message = new_message
+    print("🤖 Got response: ", last_message)
+    print("⏳ ✅ End waiting for response...")
     response = get_last_message()
-    print("Response: ", response)
+    print("🤖 Response: ", response)
     return response
 
 def start_browser():
     PAGE.goto("https://chat.openai.com/")
+    print("Waiting for login...")
     if not is_logged_in():
         print("Please log in to OpenAI Chat")
         print("Press enter when you're done")
         input()
+        APP.run(port=5001, threaded=False)
     else:
         print("Logged in")
         APP.run(port=5001, threaded=False)
-
+        
 if __name__ == "__main__":
+
+    # Print starting server
+    print("🚀 Starting server... on port 5001")
+    print(" 👉 It can be accessed at http://localhost:5001")
+
+
     start_browser()
