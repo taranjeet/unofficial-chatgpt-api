@@ -49,7 +49,7 @@ def chat():
     print("Sending message: ", message)
     send_message(message)
     print("⏳ Waiting for response...")
-    # Get last message every 0.1 seconds until last_message don't change
+    # Get last message every 1 seconds until last_message don't change
     last_message = get_last_message()
     while True:
         time.sleep(1)
