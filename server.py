@@ -3,6 +3,9 @@
 import time
 import os
 import flask
+import json
+import re
+
 
 from flask import g
 
@@ -35,14 +38,24 @@ def get_last_message():
     """Get the latest message"""
     page_elements = PAGE.query_selector_all("div[class*='ConversationItem__Message']")
     last_element = page_elements[-1]
-    return last_element.inner_text()
+    # Send back both the HTML & Plain Text
+    message_contents = {
+    	"text": last_element.inner_text(),
+    	"html": last_element.inner_html()
+	}
+    return message_contents
 
 @APP.route("/chat", methods=["GET"])
 def chat():
     message = flask.request.args.get("q")
     print("Sending message: ", message)
     send_message(message)
-    time.sleep(10) # TODO: there are about ten million ways to be smarter than this
+    #wait 1 minute for ChatGPT to send back response
+    try:
+        element = PAGE.wait_for_selector('text="Try again"', timeout=60000)
+    except TimeoutError:
+        print("Element with text 'Try again' not found")
+        
     response = get_last_message()
     print("Response: ", response)
     return response
