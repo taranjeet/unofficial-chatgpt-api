@@ -2,7 +2,7 @@
 
 * It uses playwright and chromium to open browser and parse html.
 * It is an unoffical api for development purpose only.
-
+* It includes a client script that starts a chat REPL in the command line. 
 
 # How to install
 
@@ -38,6 +38,10 @@ python server.py
 
 * The server runs at port `5001`. If you want to change, you can change it in server.py
 
+* Start a chat REPL in the command line
+```sh
+python client.py
+```
 
 # Api Documentation
 
