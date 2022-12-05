@@ -8,32 +8,10 @@
 
 * Make sure that python and virual environment is installed.
 
-* Create a new virtual environment
-
-```python
-# one time
-virtualenv -p $(which python3) pyenv
-
-# everytime you want to run the server
-source pyenv/bin/activate
-```
-
-* Now install the requirements
+* To start the server run the following command
 
 ```
-pip install -r requirements.txt
-```
-
-* If you are installing playwright for the first time, it will ask you to run this command for one time only.
-
-```
-playwright install
-```
-
-* Now run the server
-
-```
-python server.py
+chmod +x run.sh && ./run.sh
 ```
 
 * The server runs at port `5001`. If you want to change, you can change it in server.py
@@ -41,10 +19,19 @@ python server.py
 
 # Api Documentation
 
-* There is a single end point only. It is available at `/chat`
-
+* GET /chat >>> Send a message and recive the response
 ```sh
-curl -XGET http://localhost:5001/chat?q=Write%20a%20python%20program%20to%20reverse%20a%20list
+curl -X GET http://localhost:5001/chat?q=Write%20a%20python%20program%20to%20reverse%20a%20list
+```
+
+* POST /regenerate >>> Regenerate the last response
+```sh
+curl -X POST http://localhost:5001/regenerate
+```
+
+* POST /reset >>> Resets the chat thread. 
+* ```sh
+curl -X POST http://localhost:5001/reset
 ```
 
 # Credit
