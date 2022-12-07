@@ -16,6 +16,7 @@ BROWSER = PLAY.chromium.launch_persistent_context(
 )
 PAGE = BROWSER.new_page()
 
+
 def get_input_box():
     """Get the child textarea of `PromptTextarea__TextareaWrapper`"""
     return PAGE.query_selector("textarea")
@@ -23,6 +24,10 @@ def get_input_box():
 def is_logged_in():
     # See if we have a textarea with data-id="root"
     return get_input_box() is not None
+
+def is_loading_response() -> bool:
+    """See if the send button is diabled, if it does, we're not loading"""
+    return not PAGE.query_selector("textarea ~ button").is_enabled()
 
 def send_message(message):
     # Send the message
@@ -33,19 +38,65 @@ def send_message(message):
 
 def get_last_message():
     """Get the latest message"""
-    page_elements = PAGE.query_selector_all("div[class*='ConversationItem__Message']")
-    last_element = page_elements[-1]
+    while is_loading_response():
+        time.sleep(0.25)
+    page_elements = PAGE.query_selector_all("div[class*='request-:']")
+    last_element = page_elements.pop()
     return last_element.inner_text()
 
-@APP.route("/chat", methods=["GET"])
+def regenerate_response():
+    """Clicks on the Try again button.
+    Returns None if there is no button"""
+    try_again_button = PAGE.query_selector("button:has-text('Try again')")
+    if try_again_button is not None:
+        try_again_button.click()
+    return try_again_button
+
+def get_reset_button():
+    """Returns the reset thread button (it is an a tag not a button)"""
+    return PAGE.query_selector("a:has-text('Reset thread')")
+
+@APP.route("/chat", methods=["GET"]) #TODO: make this a POST
 def chat():
     message = flask.request.args.get("q")
     print("Sending message: ", message)
     send_message(message)
-    time.sleep(10) # TODO: there are about ten million ways to be smarter than this
     response = get_last_message()
     print("Response: ", response)
     return response
+
+# create a route for regenerating the response
+@APP.route("/regenerate", methods=["POST"])
+def regenerate():
+    print("Regenerating response")
+    if regenerate_response() is None:
+        return "No response to regenerate"
+    response = get_last_message()
+    print("Response: ", response)
+    return response
+
+@APP.route("/reset", methods=["POST"])
+def reset():
+    print("Resetting chat")
+    get_reset_button().click()
+    return "Chat thread reset"
+
+@APP.route("/restart", methods=["POST"])
+def restart():
+    global PAGE,BROWSER,PLAY
+    PAGE.close()
+    BROWSER.close()
+    PLAY.stop()
+    time.sleep(0.25)
+    PLAY = sync_playwright().start()
+    BROWSER = PLAY.chromium.launch_persistent_context(
+        user_data_dir="/tmp/playwright",
+        headless=False,
+    )
+    PAGE = BROWSER.new_page()
+    PAGE.goto("https://chat.openai.com/")
+    return "API restart!"
+
 
 def start_browser():
     PAGE.goto("https://chat.openai.com/")
