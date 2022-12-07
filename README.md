@@ -2,9 +2,9 @@
 
 * It uses playwright and chromium to open browser and parse html.
 * It is an unoffical api for development purpose only.
+* It includes a client script that starts a chat REPL in the command line. 
 
-
-# How to install
+## How to install
 
 * Make sure that python and virual environment is installed.
 
@@ -30,16 +30,21 @@ pip install -r requirements.txt
 playwright install
 ```
 
-* Now run the server
+## How to run
+
+* Run the server at port `5001`. If you want to change, you can change it in server.py
 
 ```
 python server.py
 ```
 
-* The server runs at port `5001`. If you want to change, you can change it in server.py
+* Start a chat REPL in the command line
 
+```sh
+python client.py
+```
 
-# Api Documentation
+## Api Documentation
 
 * There is a single end point only. It is available at `/chat`
 
@@ -47,6 +52,6 @@ python server.py
 curl -XGET http://localhost:5001/chat?q=Write%20a%20python%20program%20to%20reverse%20a%20list
 ```
 
-# Credit
+## Credit
 
 * All the credit for this script goes to [Daniel Gross's whatsapp gpt](https://github.com/danielgross/whatsapp-gpt) package. I have just taken the script as an individual file and added documentation for how to install and run it.
