@@ -47,6 +47,10 @@ python server.py
 curl -XGET http://localhost:5001/chat?q=Write%20a%20python%20program%20to%20reverse%20a%20list
 ```
 
+# Updates
+
+* [8 Dec 2022]: Updated parsing logic (credits @CoolLoong)
+
 # Credit
 
 * All the credit for this script goes to [Daniel Gross's whatsapp gpt](https://github.com/danielgross/whatsapp-gpt) package. I have just taken the script as an individual file and added documentation for how to install and run it.
