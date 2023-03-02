@@ -54,3 +54,7 @@ curl -XGET http://localhost:5001/chat?q=Write%20a%20python%20program%20to%20reve
 # Credit
 
 * All the credit for this script goes to [Daniel Gross's whatsapp gpt](https://github.com/danielgross/whatsapp-gpt) package. I have just taken the script as an individual file and added documentation for how to install and run it.
+
+# Disclaimer
+
+Please note that this project is a personal undertaking and not an official OpenAI product. It is not affiliated with OpenAI in any way, and should not be mistaken as such.
