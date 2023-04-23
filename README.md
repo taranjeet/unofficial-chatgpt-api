@@ -6,7 +6,7 @@
 
 # How to install
 
-* Make sure that python and virual environment is installed.
+* Make sure that python and virtual environment is installed.
 
 * Create a new virtual environment
 
