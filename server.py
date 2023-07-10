@@ -27,7 +27,7 @@ def is_logged_in():
 
 def is_loading_response() -> bool:
     """See if the send button is diabled, if it does, we're not loading"""
-    return not PAGE.query_selector("textarea ~ button").is_enabled()
+    return PAGE.query_selector('button div.text-2xl') != None
 
 def send_message(message):
     # Send the message
@@ -40,7 +40,7 @@ def get_last_message():
     """Get the latest message"""
     while is_loading_response():
         time.sleep(0.25)
-    page_elements = PAGE.query_selector_all("div[class*='request-:']")
+    page_elements = PAGE.query_selector_all(".markdown.prose")
     last_element = page_elements.pop()
     return last_element.inner_text()
 
